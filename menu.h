@@ -48,13 +48,12 @@ void menu()
 					
 					color(cyan);
 					gotoxy(30, 7);printf("1. Crear Cliente");
-					gotoxy(30, 8);printf("2. Listar Cliente");
-					gotoxy(30, 9);printf("3. Buscar Cliente");
-					gotoxy(30, 10);printf("4. Editar Cliente");
-					gotoxy(30, 11);printf("5. Mostrar Clientes");
-					gotoxy(30, 12);printf("0. Salir");
+					gotoxy(30, 8);printf("2. Buscar Cliente");
+					gotoxy(30, 9);printf("3. Editar Cliente");
+					gotoxy(30, 10);printf("4. Mostrar Clientes");
+					gotoxy(30, 11);printf("0. Salir");
 					color(verde);
-					gotoxy(28, 14);printf("Ingrese la opcion: ");
+					gotoxy(28, 13);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
 					
 					switch(*pSubOpcion)
@@ -70,14 +69,6 @@ void menu()
 						};
 						case 2:
 						{
-							system("cls");
-							dibujaRectangulo(1,1,79,24);
-							crear_cliente();
-							getch();
-							break;
-						};
-						case 3:
-						{
 							gotoxy(20,16);printf("Ingrese el id del cliente a buscar ");
 							scanf("%d", &buscar);
 							system("cls");
@@ -91,13 +82,14 @@ void menu()
 							}
 							else
 							{
+								color(rojoclaro);
 								gotoxy(24,12);printf("No se encontro ningun registro");
 							}
 							
 							getch();
 							break;
 						};
-						case 4:
+						case 3:
 						{
 							system("cls");
 							mostrar_clientes();
@@ -118,12 +110,13 @@ void menu()
 							}
 							else
 							{
+								color(rojoclaro);
 								gotoxy(24,12);printf("No se encontro ningun registro");
 							}
-							getch();
+							
 							break;
 						};
-						case 5:
+						case 4:
 						{
 							mostrar_clientes();
 							color(azul);
@@ -134,6 +127,7 @@ void menu()
 					}
 					
 				} while(*pSubOpcion != 0);
+				break;
 			}
 			case 2:
 			{
@@ -178,6 +172,7 @@ void menu()
 					}
 					
 				} while(*pSubOpcion != 0);
+				break;
 			}
 			case 3:
 			{
@@ -225,6 +220,7 @@ void menu()
 					}
 					
 				} while(*pSubOpcion != 0);
+				break;
 			}
 		}
 		

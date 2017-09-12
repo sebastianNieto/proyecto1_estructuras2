@@ -125,7 +125,7 @@ bool mostrar_clientes()
 	}
 	else
 	{
-		system("mode con: cols=100 lines=50");
+		system("mode con: cols=92 lines=50");
 		gotoxy(35, 3);printf("Listado de clientes");
 		encabezado_tabla(5);
 		while(fread(pUsuario, sizeof(*pUsuario), 1, archivo))
@@ -200,9 +200,9 @@ void editar_cliente(int *pUbicacion)
 		gotoxy(33,13);printf("2: Nombre");
 		gotoxy(33,14);printf("3: Direccion");
 		gotoxy(33,15);printf("4: Telefono");
-		gotoxy(33,17);printf("0: Cancelar \n");
+		gotoxy(33,17);printf("0: Cancelar");
 		color(verde);
-		gotoxy(33,29);printf("Ingresa la opcion: ");
+		gotoxy(33,19);printf("Ingresa la opcion: ");
 		color(grisclaro);
 		scanf("%d", &opcion);
 		switch(opcion)
