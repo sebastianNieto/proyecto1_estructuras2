@@ -142,33 +142,82 @@ void menu()
 					
 					color(cyan);
 					gotoxy(17, 7);printf("1. Crear Producto");
-					gotoxy(17, 8);printf("2. Mostrar Productos");
+					gotoxy(17, 8);printf("2. Buscar Producto");
 					gotoxy(17, 9);printf("3. Editar Productos");
-					gotoxy(17, 10);printf("4. Listar Productos con la cantidad vendida");
-					gotoxy(17, 11);printf("0. Salir");
+					gotoxy(17, 10);printf("4. Mostrar Productos");
+					gotoxy(17, 11);printf("5. Listar Productos con la cantidad vendida");
+					gotoxy(17, 12);printf("0. Salir");
 					
-					gotoxy(17, 12);printf("Ingrese la opcion: ");
+					gotoxy(17, 14);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
 					
 					switch(*pSubOpcion)
 					{
-						case 0:
-						{
-							
-						};
 						case 1:
 						{
-							
+							system("cls");
+							color(azul);
+							dibujaRectangulo(1,1,79,24);
+							crear_productos();
+							getch();
+							break;
 						};
 						case 2:
 						{
-						
+							gotoxy(20,16);printf("Ingrese el id del producto a buscar ");
+							scanf("%d", &buscar);
+							system("cls");
+							color(azul);
+							dibujaRectangulo(1,1,79,24);
+							*pIndice = buscar_producto(pBuscar);
+							if(*pIndice > 0)
+							{
+								producto_encontrado(pIndice);
+							}
+							else
+							{
+								color(rojoclaro);
+								gotoxy(24,12);printf("No se encontro ningun registro");
+							}
+							
+							getch();
+							break;
 						};
 						case 3:
 						{
-						
+							system("cls");
+							mostrar_productos();
+							int y = wherey();
+							color(azul);
+							dibujaRectangulo(1,1,79,y+1);
+							color(verde);
+							gotoxy(20,y+3);printf("Ingrese el id del producto a editar ");
+							scanf("%d", &buscar);
+							system("cls");
+							color(azul);
+							dibujaRectangulo(1,1,79,24);
+							*pIndice = buscar_producto(pBuscar);
+							if(*pIndice > 0)
+							{
+								producto_encontrado(pIndice);
+								editar_producto(pIndice);
+							}
+							else
+							{
+								color(rojoclaro);
+								gotoxy(24,12);printf("No se encontro ningun registro");
+							}
+							break;
 						};
-						
+						case 4:
+						{
+							system("cls");
+							mostrar_productos();
+							color(azul);
+							dibujaRectangulo(1,1,79,wherey()+2);
+							getch();
+							break;
+						};
 					}
 					
 				} while(*pSubOpcion != 0);
@@ -206,15 +255,33 @@ void menu()
 						};
 						case 1:
 						{
-							
+							system("mode con: cols=80 lines=70");
+							crear_factura();
+							getch();
+							break;
 						};
 						case 2:
 						{
-						
+							FILE *archivo;
+							archivo = fopen("datos/factura.txt", "rb");
+	
+							if(archivo == NULL)
+							{
+								//return false;
+							}
+							rewind(archivo);
+							fseek(archivo,ftell(archivo)-sizeof(*pFactura),SEEK_END);
+							fread(pFactura, sizeof(*pFactura), 1, archivo);
+							printf("%d \n", pFactura->cantidad[0]);
+							printf("%d", pFactura->cantidad[1]);
+							getch();
+							break;
 						};
 						case 3:
 						{
-						
+							mostrar_facturas();
+							getch();
+							break;
 						};
 						
 					}

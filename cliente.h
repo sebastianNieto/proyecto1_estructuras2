@@ -258,3 +258,50 @@ void editar_cliente(int *pUbicacion)
 	fclose(archivo);
 }
 
+void listar_cliente(int y)
+{
+	FILE *archivo;
+	int i = y;
+	archivo = fopen("datos/clientes.txt", "rb+");
+	while(fread(pUsuario, sizeof(*pUsuario), 1, archivo))
+	{
+		color(amarillo);
+		dibujaRectangulo(30,i,48,i+2,'\372');
+		color(grisclaro);
+		gotoxy(32, i+1);printf("%d", pUsuario->id);
+		color(amarillo);
+		gotoxy(35, i+1);printf("\263");
+		color(grisclaro);
+		gotoxy(36, i+1);printf("%s", pUsuario->nombre);
+		i += 2;
+	}
+	fclose(archivo);
+}
+
+bool datos_cliente(int *pBuscar, Cliente *cliente)
+{
+	FILE *archivo;
+	int indice = 0, *pIndice = &indice;
+	bool bandera = false, *pBandera = &bandera;
+	
+	archivo = fopen("datos/clientes.txt", "rb");
+	
+	if(archivo == NULL)
+	{
+		return false;
+	}
+	else
+	{
+		while(fread(pUsuario, sizeof(*pUsuario), 1, archivo))
+		{
+			if(*pBuscar == pUsuario->id)
+			{
+				strcpy(cliente->cedula, pUsuario->cedula);
+				strcpy(cliente->nombre, pUsuario->nombre);
+				break;
+			}
+		}
+		fclose(archivo);
+	}
+}
+
