@@ -255,15 +255,33 @@ void menu()
 						};
 						case 1:
 						{
-							
+							system("cls");
+							crear_factura();
+							getch();
+							break;
 						};
 						case 2:
 						{
-						
+							FILE *archivo;
+							archivo = fopen("datos/factura.txt", "rb");
+	
+							if(archivo == NULL)
+							{
+								//return false;
+							}
+							rewind(archivo);
+							fseek(archivo,ftell(archivo)-sizeof(*pFactura),SEEK_END);
+							fread(pFactura, sizeof(*pFactura), 1, archivo);
+							printf("%d \n", pFactura->cantidad[0]);
+							printf("%d", pFactura->cantidad[1]);
+							getch();
+							break;
 						};
 						case 3:
 						{
-						
+							mostrar_facturas();
+							getch();
+							break;
 						};
 						
 					}
