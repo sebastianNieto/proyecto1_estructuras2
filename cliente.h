@@ -1,3 +1,10 @@
+/* Clientes
+* Creacion, edicion, retorno de datos de los clientes del sistema
+*  Fecha 13/09/2017
+*  Elaborado por: John Sebastian Nieto gil 
+*  Elaborado por: Ricardo Andres Villalobos
+*/
+
 struct Cliente
 {
 	int id;
@@ -7,6 +14,17 @@ struct Cliente
 	char telefono[10];
 } usuario, copiaUsuario, *pUsuario = &usuario, *pCopiaUsuario = &copiaUsuario;
 
+bool crear_cliente();
+void encabezado_tabla(int);
+void cuerpo_tabla(Cliente *, int);
+bool mostrar_clientes();
+void cliente_encontrado(int *);
+int buscar_cliente(int *);
+void editar_cliente(int *);
+void listar_cliente(int y);
+bool datos_cliente(int *, Cliente *);
+
+//Crea un nuevo cliente y lo almacena en el archivo clientes.txt
 bool crear_cliente()
 {
 	FILE *archivo;
@@ -60,9 +78,11 @@ bool crear_cliente()
 		fclose(archivo);
 		color(verdeclaro);
 		gotoxy(32, 16);printf("Registro Exitos");
+		return true;
 	}
 }
 
+//Imprime el encabezado de la tabla que lista los clientes
 void encabezado_tabla(int y)
 {
 	color(amarillo);
@@ -87,6 +107,7 @@ void encabezado_tabla(int y)
 	gotoxy(80, y);printf("Telefono");
 }
 
+//Imprime el cuerpo de la tabla que lista los clientes
 void cuerpo_tabla(Cliente *pUsuario, int y)
 {
 	
@@ -112,6 +133,7 @@ void cuerpo_tabla(Cliente *pUsuario, int y)
 	gotoxy(80, y);printf("%s", pUsuario->telefono);
 }
 
+//Muestra la informacion de todos los clientes
 bool mostrar_clientes()
 {
 	FILE *archivo;
@@ -137,6 +159,7 @@ bool mostrar_clientes()
 	fclose(archivo);
 }
 
+//Muestra la informacion de un solo cliente
 void cliente_encontrado(int *pIndice)
 {
 	FILE *archivo;
@@ -150,6 +173,7 @@ void cliente_encontrado(int *pIndice)
 	fclose(archivo);
 }
 
+//Retorna verdadero si existe el cliente
 int buscar_cliente(int *pBuscar)
 {
 	FILE *archivo;
@@ -184,15 +208,16 @@ int buscar_cliente(int *pBuscar)
 	}
 }
 
+//Muestra las opciones para editar la informacion de un cliente
 void editar_cliente(int *pUbicacion)
 {
 	int opcion = 0, *pOpcion = &opcion;
 	
 	FILE *archivo;
-	archivo = fopen("datos/clientes.txt", "rb+");
-	fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 	
 	do{
+		archivo = fopen("datos/clientes.txt", "rb");
+		fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 		color(amarillo);
 		gotoxy(33,10);printf("Escoge el campo a editar");
 		color(grisclaro);
@@ -214,7 +239,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(28,22);fgets(pUsuario->cedula, 10, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 2:
@@ -224,7 +253,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(33,22);fgets(pUsuario->nombre, 30, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 3:
@@ -234,7 +267,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(31,22);fgets(pUsuario->direccion, 30, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 4:
@@ -244,7 +281,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(27,22);fgets(pUsuario->telefono, 10, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 		}
@@ -258,6 +299,7 @@ void editar_cliente(int *pUbicacion)
 	fclose(archivo);
 }
 
+//Muestra una informacion mas resumida de los clientes
 void listar_cliente(int y)
 {
 	FILE *archivo;
@@ -278,6 +320,8 @@ void listar_cliente(int y)
 	fclose(archivo);
 }
 
+
+//Retorna los datos de un cliente en particular
 bool datos_cliente(int *pBuscar, Cliente *cliente)
 {
 	FILE *archivo;

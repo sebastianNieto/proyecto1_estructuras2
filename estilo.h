@@ -1,5 +1,5 @@
 /* Estilos de ubicacion, color y marco
-*  Fecha 06/09/2017
+*  Fecha 13/09/2017
 *  Elaborado por: John Sebastian Nieto gil 
 *  Elaborado por: Ricardo Andres Villalobos
 */
@@ -21,9 +21,12 @@
 #define amarillo 14 
 #define blanco 15
 
-void gotoxy(int x, int y);
-void dibujaRectangulo(int superiorX, int superiorY, int inferiorX, int inferiorY, char marco);
+void gotoxy(int , int );
+void dibujaRectangulo(int, int, int, int, char);
 void color(int n);
+int wherex();
+int wherey();
+void limpiaPantalla(int, int, int, int);
 
 //Ubica la posición del cursor
 void gotoxy(int x, int y)
@@ -34,12 +37,15 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+//Retorna la posicion del curson en el eje x
 int wherex()
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     return csbi.dwCursorPosition.X;
 }
+
+//Retorna la posicion del curson en el eje y
 int wherey()
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -85,6 +91,7 @@ void color(int n)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), n); 
 } 
 
+//Limpia una parte de la pantalla
 void limpiaPantalla(int superiorX, int superiorY, int inferiorX, int inferiorY)
 {
 	int i;

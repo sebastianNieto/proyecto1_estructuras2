@@ -1,3 +1,10 @@
+/* Menu de opciones del contenido
+*  Fecha 13/09/2017
+*  Elaborado por: John Sebastian Nieto gil 
+*  Elaborado por: Ricardo Andres Villalobos
+*/
+
+//Muestra un menu con opciones en pantalla 
 void menu()
 {
 	//---------------------------------------------------------
@@ -45,7 +52,7 @@ void menu()
 					
 					color(cyan);
 					gotoxy(30, 7);printf("1. Crear Cliente");
-					gotoxy(30, 8);printf("2. Buscar Cliente");
+					gotoxy(30, 8);printf("2. Listar Cliente");
 					gotoxy(30, 9);printf("3. Editar Cliente");
 					gotoxy(30, 10);printf("4. Mostrar Clientes");
 					gotoxy(30, 11);printf("0. Salir");
@@ -66,7 +73,11 @@ void menu()
 						};
 						case 2:
 						{
-							gotoxy(20,16);printf("Ingrese el id del cliente a buscar ");
+							system("cls");
+							color(azul);
+							dibujaRectangulo(1,1,79,24);
+							listar_cliente(3);
+							gotoxy(25,wherey()+2);printf("Ingrese el id del cliente ");
 							scanf("%d", &buscar);
 							system("cls");
 							system("mode con: cols=92 lines=26");
@@ -130,6 +141,7 @@ void menu()
 			{
 				do{
 					system("cls");
+					color(azul);
 					dibujaRectangulo(1,1,80,24);
 					color(verdeclaro);
 					gotoxy(28,3);printf("Sistema de facturacion");
@@ -139,11 +151,10 @@ void menu()
 					
 					color(cyan);
 					gotoxy(17, 7);printf("1. Crear Producto");
-					gotoxy(17, 8);printf("2. Buscar Producto");
+					gotoxy(17, 8);printf("2. Listar Producto");
 					gotoxy(17, 9);printf("3. Editar Productos");
 					gotoxy(17, 10);printf("4. Mostrar Productos");
-					gotoxy(17, 11);printf("5. Listar Productos con la cantidad vendida");
-					gotoxy(17, 12);printf("0. Salir");
+					gotoxy(17, 11);printf("0. Salir");
 					
 					gotoxy(17, 14);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
@@ -161,7 +172,11 @@ void menu()
 						};
 						case 2:
 						{
-							gotoxy(20,16);printf("Ingrese el id del producto a buscar ");
+							system("cls");
+							color(azul);
+							dibujaRectangulo(1,1,79,24);
+							listar_productos(3);
+							gotoxy(25,wherey()+2);printf("Ingrese el id del producto ");
 							scanf("%d", &buscar);
 							system("cls");
 							color(azul);
@@ -224,6 +239,7 @@ void menu()
 			{
 				do{
 					system("cls");
+					color(amarillo);
 					dibujaRectangulo(1,1,80,24);
 					color(verdeclaro);
 					gotoxy(28,3);printf("Sistema de facturacion");
@@ -233,15 +249,14 @@ void menu()
 					
 					color(cyan);
 					gotoxy(27, 7);printf("1. Crear Factura");
-					gotoxy(27, 8);printf("2. Buscar Factura");
+					gotoxy(27, 8);printf("2. Listar Factura");
 					gotoxy(27, 9);printf("3. Editar Factura");
-					gotoxy(27, 10);printf("4. Mostrar Facturas");
-					gotoxy(27, 11);printf("5. Facturas por cliente");
-					gotoxy(27, 12);printf("6. Facturas pagadas");
-					gotoxy(27, 13);printf("7. Facturas sin pagar");
-					gotoxy(27, 14);printf("0. Salir");
+					gotoxy(27, 10);printf("4. Facturas por cliente");
+					gotoxy(27, 11);printf("5. Facturas pagadas");
+					gotoxy(27, 12);printf("6. Facturas sin pagar");
+					gotoxy(27, 13);printf("0. Salir");
 					
-					gotoxy(27, 16);printf("Ingrese la opcion: ");
+					gotoxy(27, 15);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
 					
 					switch(*pSubOpcion)
@@ -261,7 +276,6 @@ void menu()
 						{
 							listar_facturas();
 							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
-							
 							scanf("%d", &buscar);
 							system("cls");
 							mostrar_factura(pBuscar);
@@ -276,6 +290,39 @@ void menu()
 							system("cls");
 							mostrar_factura(pBuscar);
 							editar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 4:
+						{
+							gotoxy(15, wherey()+2);printf("ingrese el id del cliente: ");
+							scanf("%d", &buscar);
+							system("cls");
+							listar_facturas_cliente(pBuscar);
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 5:
+						{
+							facturas_pagadas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 6:
+						{
+							facturas_sinpagar();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
 							getch();
 							break;
 						};
