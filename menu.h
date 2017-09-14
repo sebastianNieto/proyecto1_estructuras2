@@ -1,6 +1,3 @@
-
-
-
 void menu()
 {
 	//---------------------------------------------------------
@@ -145,8 +142,7 @@ void menu()
 					gotoxy(17, 8);printf("2. Buscar Producto");
 					gotoxy(17, 9);printf("3. Editar Productos");
 					gotoxy(17, 10);printf("4. Mostrar Productos");
-					gotoxy(17, 11);printf("5. Listar Productos con la cantidad vendida");
-					gotoxy(17, 12);printf("0. Salir");
+					gotoxy(17, 11);printf("0. Salir");
 					
 					gotoxy(17, 14);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
@@ -236,50 +232,80 @@ void menu()
 					
 					color(cyan);
 					gotoxy(27, 7);printf("1. Crear Factura");
-					gotoxy(27, 8);printf("2. Buscar Factura");
+					gotoxy(27, 8);printf("2. Listar Factura");
 					gotoxy(27, 9);printf("3. Editar Factura");
-					gotoxy(27, 10);printf("4. Mostrar Facturas");
-					gotoxy(27, 11);printf("5. Facturas por cliente");
-					gotoxy(27, 12);printf("6. Facturas pagadas");
-					gotoxy(27, 13);printf("7. Facturas sin pagar");
-					gotoxy(27, 14);printf("0. Salir");
+					gotoxy(27, 10);printf("4. Facturas por cliente");
+					gotoxy(27, 11);printf("5. Facturas pagadas");
+					gotoxy(27, 12);printf("6. Facturas sin pagar");
+					gotoxy(27, 13);printf("0. Salir");
 					
-					gotoxy(27, 16);printf("Ingrese la opcion: ");
+					gotoxy(27, 15);printf("Ingrese la opcion: ");
 					scanf("%d", &subOpcion);
 					
 					switch(*pSubOpcion)
 					{
 						case 0:
 						{
-							
+							break;
 						};
 						case 1:
 						{
-							system("cls");
+							system("mode con: cols=80 lines=70");
 							crear_factura();
 							getch();
 							break;
 						};
 						case 2:
 						{
-							FILE *archivo;
-							archivo = fopen("datos/factura.txt", "rb");
-	
-							if(archivo == NULL)
-							{
-								//return false;
-							}
-							rewind(archivo);
-							fseek(archivo,ftell(archivo)-sizeof(*pFactura),SEEK_END);
-							fread(pFactura, sizeof(*pFactura), 1, archivo);
-							printf("%d \n", pFactura->cantidad[0]);
-							printf("%d", pFactura->cantidad[1]);
+							listar_facturas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
 							getch();
 							break;
 						};
 						case 3:
 						{
-							mostrar_facturas();
+							listar_facturas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							editar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 4:
+						{
+							gotoxy(15, wherey()+2);printf("ingrese el id del cliente: ");
+							scanf("%d", &buscar);
+							system("cls");
+							listar_facturas_cliente(pBuscar);
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 5:
+						{
+							facturas_pagadas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							getch();
+							break;
+						};
+						case 6:
+						{
+							facturas_sinpagar();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
 							getch();
 							break;
 						};

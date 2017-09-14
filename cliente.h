@@ -189,10 +189,10 @@ void editar_cliente(int *pUbicacion)
 	int opcion = 0, *pOpcion = &opcion;
 	
 	FILE *archivo;
-	archivo = fopen("datos/clientes.txt", "rb+");
-	fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 	
 	do{
+		archivo = fopen("datos/clientes.txt", "rb");
+		fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 		color(amarillo);
 		gotoxy(33,10);printf("Escoge el campo a editar");
 		color(grisclaro);
@@ -214,7 +214,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(28,22);fgets(pUsuario->cedula, 10, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 2:
@@ -224,7 +228,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(33,22);fgets(pUsuario->nombre, 30, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 3:
@@ -234,7 +242,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(31,22);fgets(pUsuario->direccion, 30, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 4:
@@ -244,7 +256,11 @@ void editar_cliente(int *pUbicacion)
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(27,22);fgets(pUsuario->telefono, 10, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/clientes.txt", "rb+");
+				fseek(archivo,sizeof(*pUsuario)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pUsuario,sizeof(*pUsuario),1,archivo);
+				fclose(archivo);
 				break;
 			}
 		}
@@ -256,5 +272,54 @@ void editar_cliente(int *pUbicacion)
 	} while(*pOpcion != 0);
 	
 	fclose(archivo);
+}
+
+void listar_cliente(int y)
+{
+	FILE *archivo;
+	int i = y;
+	archivo = fopen("datos/clientes.txt", "rb+");
+	while(fread(pUsuario, sizeof(*pUsuario), 1, archivo))
+	{
+		color(amarillo);
+		dibujaRectangulo(30,i,48,i+2,'\372');
+		color(grisclaro);
+		gotoxy(32, i+1);printf("%d", pUsuario->id);
+		color(amarillo);
+		gotoxy(35, i+1);printf("\263");
+		color(grisclaro);
+		gotoxy(36, i+1);printf("%s", pUsuario->nombre);
+		i += 2;
+	}
+	fclose(archivo);
+}
+
+bool datos_cliente(int *pBuscar, Cliente *cliente)
+{
+	FILE *archivo;
+	int indice = 0, *pIndice = &indice;
+	bool bandera = false, *pBandera = &bandera;
+	
+	archivo = fopen("datos/clientes.txt", "rb");
+	
+	if(archivo == NULL)
+	{
+		return false;
+	}
+	else
+	{
+		while(fread(pUsuario, sizeof(*pUsuario), 1, archivo))
+		{
+			if(*pBuscar == pUsuario->id)
+			{
+				strcpy(cliente->cedula, pUsuario->cedula);
+				strcpy(cliente->nombre, pUsuario->nombre);
+				strcpy(cliente->direccion, pUsuario->direccion);
+				strcpy(cliente->telefono, pUsuario->telefono);
+				break;
+			}
+		}
+		fclose(archivo);
+	}
 }
 

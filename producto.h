@@ -4,6 +4,7 @@ struct Producto
 	char nombre[30];
 	float valor;
 	int cantidad;
+	int vendida;
 } productos, *pproductos = &productos;
 
 int subOpcion, i =0;
@@ -11,41 +12,49 @@ int subOpcion, i =0;
 void encabezado_producto(int y)
 {
 	color(amarillo);
-	dibujaRectangulo(12,y-1,68,y+1,'\372');
+	dibujaRectangulo(8,y-1,73,y+1,'\372');
 	color(grisclaro);
-	gotoxy(13, y);printf("Id");
+	gotoxy(9, y);printf("Id");
 	color(amarillo);
-	gotoxy(16, y);printf("\263");
+	gotoxy(12, y);printf("\263");
 	color(grisclaro);
-	gotoxy(17, y);printf("Nombre");
+	gotoxy(13, y);printf("Nombre");
 	color(amarillo);
-	gotoxy(48, y);printf("\263");
+	gotoxy(44, y);printf("\263");
 	color(grisclaro);
-	gotoxy(49, y);printf("Valor");
+	gotoxy(45, y);printf("Valor");
 	color(amarillo);
-	gotoxy(59, y);printf("\263");
+	gotoxy(55, y);printf("\263");
 	color(grisclaro);
-	gotoxy(60, y);printf("Cantidad");
+	gotoxy(56, y);printf("Cantidad");
+	color(amarillo);
+	gotoxy(64, y);printf("\263");
+	color(grisclaro);
+	gotoxy(65, y);printf("Vendidos");
 }
 
 void cuerpo_producto(Producto *pproductos, int y)
 {
 	color(amarillo);
-	dibujaRectangulo(12,y-1,68,y+1,'\372');
+	dibujaRectangulo(8,y-1,73,y+1,'\372');
 	color(grisclaro);
-	gotoxy(13, y);printf("%d", pproductos->id);
+	gotoxy(9, y);printf("%d", pproductos->id);
 	color(amarillo);
-	gotoxy(16, y);printf("\263");
+	gotoxy(12, y);printf("\263");
 	color(grisclaro);
-	gotoxy(17, y);printf("%s", pproductos->nombre);
+	gotoxy(13, y);printf("%s", pproductos->nombre);
 	color(amarillo);
-	gotoxy(48, y);printf("\263");
+	gotoxy(44, y);printf("\263");
 	color(grisclaro);
-	gotoxy(49, y);printf("%.2f", pproductos->valor);
+	gotoxy(45, y);printf("%.2f", pproductos->valor);
 	color(amarillo);
-	gotoxy(59, y);printf("\263");
+	gotoxy(55, y);printf("\263");
 	color(grisclaro);
-	gotoxy(60, y);printf("%d", pproductos->cantidad);
+	gotoxy(56, y);printf("%d", pproductos->cantidad);
+	color(amarillo);
+	gotoxy(64, y);printf("\263");
+	color(grisclaro);
+	gotoxy(65, y);printf("%d", pproductos->vendida);
 };
 
 bool crear_productos()
@@ -63,19 +72,21 @@ bool crear_productos()
 	fread(pproductos, sizeof(*pproductos), 1, archivo);
 	pproductos->id = pproductos->id+1;
 	fclose(archivo);
-	color(azulclaro);
 	fflush(stdin);
+	color(amarillo);
 	gotoxy(24,7);printf("Nombre del producto");
-	color(azulclaro);
+	color(grisclaro);
 	gotoxy(24,8);fgets(pproductos->nombre, 30, stdin);
 	fflush(stdin);
-	color(azulclaro);
+	color(amarillo);
 	gotoxy(24,10);printf("Valor del Producto");
-	color(azulclaro);
+	color(grisclaro);
 	gotoxy(24,11);scanf("%f", &pproductos->valor);
+	color(amarillo);
 	gotoxy(24,13);printf("Cantidad del Producto");
-	color(azulclaro);
+	color(grisclaro);
 	gotoxy(24,14);scanf("%d", &pproductos->cantidad);
+	pproductos->vendida = 0;
 	
 	archivo = fopen("datos/productos.txt", "ab");
 	
@@ -170,18 +181,19 @@ void editar_producto(int *pUbicacion){
 	int opcion = 0, *pOpcion = &opcion;
 	
 	FILE *archivo;
-	archivo = fopen("datos/productos.txt", "rb+");
-	fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
 	
 	do{
+		archivo = fopen("datos/productos.txt", "rb");
+		fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
+		fread(pproductos, sizeof(*pproductos), 1, archivo);
 		color(amarillo);
 		gotoxy(30,10);printf(" EDITAR PRODUCTO ");
 		gotoxy(17,12);printf("1. Nombre ");
 		gotoxy(17,13);printf("2. Valor ");
 		gotoxy(17,14);printf("3. Cantidad ");
-		gotoxy(17,14);printf("0. Salir");
+		gotoxy(17,15);printf("0. Salir");
 		color(verde);
-		gotoxy(17,16);printf(" Seleccione la opcion que desea Modificar: ");
+		gotoxy(17,17);printf(" Seleccione la opcion que desea Modificar: ");
 		scanf("%d", &opcion);
 		switch (*pOpcion)
 		{
@@ -192,7 +204,11 @@ void editar_producto(int *pUbicacion){
 				fflush(stdin);
 				color(grisclaro);
 				gotoxy(28,22);fgets(pproductos->nombre, 30, stdin);
+				fclose(archivo);
+				archivo = fopen("datos/productos.txt", "rb+");
+				fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pproductos,sizeof(*pproductos),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 2:
@@ -201,8 +217,12 @@ void editar_producto(int *pUbicacion){
 				gotoxy(28,21);printf("Ingrese el nuevo valor: ");
 				fflush(stdin);
 				color(grisclaro);
-				gotoxy(28,22);fgets(pUsuario->cedula, 10, stdin);
+				gotoxy(28,22);scanf("%f",&pproductos->valor);
+				fclose(archivo);
+				archivo = fopen("datos/productos.txt", "rb+");
+				fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pproductos,sizeof(*pproductos),1,archivo);
+				fclose(archivo);
 				break;
 			}
 			case 3:
@@ -211,8 +231,12 @@ void editar_producto(int *pUbicacion){
 				gotoxy(28,21);printf("Ingrese la nueva cantidad: ");
 				fflush(stdin);
 				color(grisclaro);
-				gotoxy(28,22);fgets(pUsuario->cedula, 10, stdin);
+				gotoxy(28,22);scanf("%d", &pproductos->cantidad);
+				fclose(archivo);
+				archivo = fopen("datos/productos.txt", "rb+");
+				fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
 				fwrite(pproductos,sizeof(*pproductos),1,archivo);
+				fclose(archivo);
 				break;
 			}
 		}
@@ -225,3 +249,70 @@ void editar_producto(int *pUbicacion){
 	fclose(archivo);
 }
 
+void listar_productos(int y)
+{
+	FILE *archivo;
+	int i = y;
+	archivo = fopen("datos/productos.txt", "rb+");
+	color(amarillo);
+	while(fread(pproductos, sizeof(*pproductos), 1, archivo))
+	{
+		color(amarillo);
+		dibujaRectangulo(30,i-1,48,i+1,'\372');
+		color(grisclaro);
+		gotoxy(32, i);printf("%d", pproductos->id);
+		color(amarillo);
+		gotoxy(35, i);printf("\263");
+		color(grisclaro);
+		gotoxy(36, i);printf("%s", pproductos->nombre);
+		i += 2;
+	}
+	fclose(archivo);
+}
+
+bool datos_productos(int *pBuscar, Producto *producto)
+{
+	FILE *archivo;
+	int indice = 0, *pIndice = &indice;
+	bool bandera = false, *pBandera = &bandera;
+	archivo = fopen("datos/productos.txt", "rb");
+	
+	if(archivo == NULL)
+	{
+		return false;
+	}
+	else
+	{
+		while(fread(pproductos, sizeof(*pproductos), 1, archivo))
+		{
+			if(*pBuscar == pproductos->id)
+			{
+				strcpy(producto->nombre, pproductos->nombre);
+				producto->valor = pproductos->valor;
+				producto->cantidad = pproductos->cantidad;
+				producto->vendida = pproductos->vendida;
+				break;
+			}
+		}
+		fclose(archivo);
+	}
+}
+
+bool producto_cantidad(int *pUbicacion, int valor)
+{
+	FILE *archivo;
+	archivo = fopen("datos/productos.txt", "rb");
+	fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
+	fread(pproductos, sizeof(*pproductos), 1, archivo);
+	if(archivo == NULL)
+	{
+		return false;
+	}
+	pproductos->vendida = pproductos->vendida+valor;
+	fclose(archivo);
+	archivo = fopen("datos/productos.txt", "rb+");
+	fseek(archivo,sizeof(*pproductos)* ((*pUbicacion) - 1),SEEK_SET);
+	fwrite(pproductos,sizeof(*pproductos),1,archivo);
+	fclose(archivo);
+	return true;
+}
