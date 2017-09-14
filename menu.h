@@ -1,6 +1,3 @@
-
-
-
 void menu()
 {
 	//---------------------------------------------------------
@@ -251,7 +248,7 @@ void menu()
 					{
 						case 0:
 						{
-							
+							break;
 						};
 						case 1:
 						{
@@ -262,24 +259,23 @@ void menu()
 						};
 						case 2:
 						{
-							FILE *archivo;
-							archivo = fopen("datos/factura.txt", "rb");
-	
-							if(archivo == NULL)
-							{
-								//return false;
-							}
-							rewind(archivo);
-							fseek(archivo,ftell(archivo)-sizeof(*pFactura),SEEK_END);
-							fread(pFactura, sizeof(*pFactura), 1, archivo);
-							printf("%d \n", pFactura->cantidad[0]);
-							printf("%d", pFactura->cantidad[1]);
+							listar_facturas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
 							getch();
 							break;
 						};
 						case 3:
 						{
-							mostrar_facturas();
+							listar_facturas();
+							gotoxy(11, wherey()+2);printf("ingrese el id de la factura: ");
+							scanf("%d", &buscar);
+							system("cls");
+							mostrar_factura(pBuscar);
+							editar_factura(pBuscar);
 							getch();
 							break;
 						};

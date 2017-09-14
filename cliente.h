@@ -298,6 +298,8 @@ bool datos_cliente(int *pBuscar, Cliente *cliente)
 			{
 				strcpy(cliente->cedula, pUsuario->cedula);
 				strcpy(cliente->nombre, pUsuario->nombre);
+				strcpy(cliente->direccion, pUsuario->direccion);
+				strcpy(cliente->telefono, pUsuario->telefono);
 				break;
 			}
 		}

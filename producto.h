@@ -246,7 +246,7 @@ void listar_productos(int y)
 	fclose(archivo);
 }
 
-bool datos_productos(int *pBuscar, int *pValor, int *pCantidad)
+bool datos_productos(int *pBuscar, Producto *producto)
 {
 	FILE *archivo;
 	int indice = 0, *pIndice = &indice;
@@ -263,8 +263,9 @@ bool datos_productos(int *pBuscar, int *pValor, int *pCantidad)
 		{
 			if(*pBuscar == pproductos->id)
 			{
-				*pValor = pproductos->valor;
-				*pCantidad = pproductos->cantidad;
+				strcpy(producto->nombre, pproductos->nombre);
+				producto->valor = pproductos->valor;
+				producto->cantidad = pproductos->cantidad;
 				break;
 			}
 		}
